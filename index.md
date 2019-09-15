@@ -110,6 +110,20 @@ Let’s select “subject_1”.
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
 ```
 
+<pre>
+	<code>
+		background-color: white;
+		border: 0px;
+		display: block;
+
+Constructed an OTU table and other variables with the following settings:
+thresh_prevalence: 80
+thresh_abundance: 0.5
+thresh_NA: 5
+subj: subject_1
+	</code>
+</pre>
+
 ```
 Constructed an OTU table and other variables with the following settings:
 thresh_prevalence: 80
@@ -292,12 +306,14 @@ horizonplot(paramList)
 
 Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of otu_1243 around day 7.
 
-### Additional of the Horizon Plot
+### Additional Modifications of the Horizon Plot
 
-We can add several modifications to highlight different characteristics of our longitudinal data. First, we change the number of positive bands that data above the origin are segmented into
+We can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data. 
+
+First, we change the number of positive bands that data are segmented into.
 
 ```
-## Using three horizon bands 
+## Use three horizon bands 
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", nbands = 3)
 
 horizonplot(paramList)
@@ -305,7 +321,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_nbands.png)
 
-We can also change the origin value, which defines the baseline (i.e. value=0, the base of the first positive band) of horizon subplots. The sample values for each OTU will then be centered to this origin. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel. By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate OTU values below the median.
+We can also change the origin value, which defines the baseline (i.e. value=0, the base of the first positive band) of horizon subplots. The sample values for each OTU will then be centered to this origin. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel.
 
 ```
 ## Origin as the mean absolute deviation of sample values
@@ -324,6 +340,8 @@ horizonplot(paramList)
 ```
 
 plot_origin_fixed.png
+
+By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate abundance below the median.
 
 Similarly, we can modify the band thickness, the height of each horizontal band denoted by a unique color, which determines the scale of a horizon subplot.
 
@@ -360,14 +378,14 @@ Setting a fixed origin and band thickness lets us compare values between facets.
 
 ### Dealing with Irregularly Spaced Data
 
-Since our data is irregularly spaced, the timescale is misleading. The distance of time between samples is not consistent throughout the time series. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let’s create a new time point every 100 days, i.e. at days 1, 101, 201, 301, …, 1401.
+Since *otusample* is irregularly spaced, i.e. the distance of time between samples is not consistent throughout the time series, the timescale on the plot is misleading. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let’s create a new time point every 100 days, i.e. at days 1, 101, 201, 301, …, 3301.
 
 ```
 ## Adjust data to a regular time interval of 100 days
 paramList <- prepanel(otusample, metadatasample, subj = "subject_1", regularInterval = 100)
 ```
 
-We can see the sample collection days starting from day 1 by viewing the `timestamps` variable from the output list of prepanel. This is the third element of the list (the components of the list are identified in the documentation for the horizonplot function).
+We can see the sample collection days starting from day 1 by viewing the `timestamps` variable from the output list of prepanel. This is the third element of the list (you can view components of the list in the horizonplot function documentation).
 
 ```
 paramList[[3]]
@@ -381,7 +399,7 @@ paramList[[3]]
 [81] 3332
 ```
 
-Each value will be linear interpolated from the previous and subsequent timepoints in `timestamps`. Now we can plot the regularly spaced data, and get a graph with an accurate timescale.
+Each new value will be linear interpolated from the previous and subsequent timepoints in `timestamps`. We can then plot the regularly spaced data, and get a graph with an accurate timescale.
 
 ```
 horizonplot(paramList)
@@ -389,7 +407,9 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_regular_interval.png)
 
-While this timescale is more accurate than simply plotting samples next to each other, it can also introduce inaccuracy by interpolating across large timespans. Since our data contains large gaps in time between samples, regularizing data in this way could be misleading. We can reduce this inaccuracy by specifying the maximum amount of time without samples allowed to create an interpolated timepoint. For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will create a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
+While this timescale is more accurate than simply plotting samples next to each other, it also introduces inaccuracy by interpolating across large timespans. Since our data contains large gaps in time between samples, regularizing data in this way could be misleading. We can reduce this inaccuracy by specifying the maximum amount of time without samples allowed to create an interpolated timepoint. 
+
+For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will create a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
 
 ```
 ## Set maxGap to 200
@@ -410,6 +430,15 @@ horizonplot(paramList)
 ```
 
 ![](assets/pics/plot_max_gap2.png)
+
+```
+## Remove facets with <5 samples
+paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 50, maxGap = 100, minSamplesPerFacet = 5)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_min_samples.png)
 
 You should note that removing facets can often result in a timescale that does not start at day 1! The plot for maxGap = 200, for example, starts at day 401, as days 1, 101, 201 and 301 were removed.
 
@@ -451,7 +480,7 @@ horizonplot(paramList, aesthetics = horizonaes(col.bands = brewer.pal(10, "PiYG"
 ggplot2::theme(panel.background = ggplot2::element_rect(fill = "gray92"))
 ```
 
-![](assets/pics/plot_customaes)
+![](assets/pics/plot_customaes.png)
 
 
 
