@@ -112,16 +112,13 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 
 <pre>
 	<code>
-		body {
-		background-color: white;
-		border: 0px;
-		display: block;
-		}
+		<body style="background-color:white; border:0px; display:block;">
 Constructed an OTU table and other variables with the following settings:
 thresh_prevalence: 80
 thresh_abundance: 0.5
 thresh_NA: 5
 subj: subject_1
+		</body>
 	</code>
 </pre>
 
