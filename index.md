@@ -142,7 +142,6 @@ subj: subject_1
 21 otu_7644         1.5073134   82.71605                   0
 22 otu_7737         2.2286250   98.76543                   0
 23 otu_8547         0.9883556   92.59259                   0
-`biomehorizonpkg_otu_stats` was outputted to the environment.
 ```
 
 Great. Now you should see in the console, the function selected several OTUs considered the most “significant”. By default, this is done using four filtering standards.
@@ -191,7 +190,6 @@ subj: subject_1
 6 otu_3773          2.726379  100.00000                   0
 7 otu_6821         17.427984  100.00000                   0
 8 otu_7737          2.228625   98.76543                   0
-`biomehorizonpkg_otu_stats` was outputted to the environment.
 ```
 
 Alternatively, we can manually select OTUs.
