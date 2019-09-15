@@ -106,7 +106,4 @@ You can use this function with just an OTU table, but this will assume that all 
 
 Let’s select "subject_1".
 
-```
-paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
-```
 
