@@ -104,9 +104,4 @@ Then, it will output the refined arguments in a list that can be supplied to the
 
 You can use this function with just an OTU table, but this will assume that all samples come from the same subject. Since *otusample* has 6 subjects, we will need to provide additional metadata matching samples to their subjects. Our metadata also contains collection dates for each sample, which will allow us to ensure samples are ordered chronologically.
 
-Let’s select “subject_1”.
-
-```
-paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
-```
 
