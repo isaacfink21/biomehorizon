@@ -5,11 +5,11 @@ tagline: Plot Microbiome Time Series
 description: 
 ---
 
-[section to jump to different parts]
-
 BiomeHorizon is an R package for visualizing longitudinal microbiome data in the form of a horizon plot. A horizon plot provides a compact way to visualize multiple time series in parallel by overlying the values at different ranges of magnitude. Though this package is designed for microbiome data, it can be used to visualize other types of longitudinal data as well.
 
-In this tutorial, we walk through refining the data and creating a horizon plot from sample data. We use a sample OTU table with over 1000 OTUs and samples from six individuals, metadata with collection dates, and taxonomy information. Samples in this data set are collected at irregular time intervals over a period of several years, and each subject has a different number of samples.
+In this tutorial, we walk through creating a horizon plot from sample data, and then add several modifications to the visualization to demonstrate the versatility of the package. We use a sample OTU table with 8814 OTUs and 1781 samples from six individuals, a metadata table with collection dates, and a table with taxonomy information. Samples in this data set are collected at irregular time intervals over a period of several years, with a different number of samples for each subject.
+
+### Loading in the package
 
 The sample data sets and dependencies are loaded automatically on download, so we just need to install and load in the package.
 
@@ -110,13 +110,6 @@ Let’s select “subject_1”.
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
 ```
 
-<pre><div style="display:block; background-color:white"><code>## Constructed an OTU  table and other variables with the following settings:
-## thresh_prevalence: 80
-## thresh_abundance: 0.5
-## thresh_NA: 5
-## subj: subject_1
-</code></div></pre>
-
 ```
 Constructed an OTU table and other variables with the following settings:
 thresh_prevalence: 80
@@ -140,9 +133,7 @@ subj: subject_1
 12 otu_3131         0.9506667   86.41975                   0
 13 otu_3136         0.7341905   86.41975                   0
 14 otu_3773         2.7263786  100.00000                   0
-```
-**`15 otu_4252         0.5308205   80.24691                   0`**
-```
+15 otu_4252         0.5308205   80.24691                   0
 16 otu_6205         1.0759167   98.76543                   0
 17 otu_6570         0.8166255  100.00000                   0
 18 otu_6789         0.7530348   82.71605                   0
