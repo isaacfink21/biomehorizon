@@ -92,7 +92,7 @@ head(taxonomydata)
 
 ### Data Refining and OTU Selection
 
-Before we visualize the data using the main function, we must first prepare the data sets and other variables for analysis using the `prepanel` function. This will do several things, most importantly:
+Before we visualize the data using the main function, we must first prepare the data sets and other variables for analysis using the prepanel function. This will do several things, most importantly:
 
 1. Filter OTUs
 2. Filter samples to just one subject
