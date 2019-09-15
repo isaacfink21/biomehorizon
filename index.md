@@ -110,7 +110,7 @@ Let’s select “subject_1”.
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
 ```
 
-<style>
+<pre>
 	<code>
 		body {
 		background-color: white;
@@ -123,7 +123,7 @@ thresh_abundance: 0.5
 thresh_NA: 5
 subj: subject_1
 	</code>
-</style>
+</pre>
 
 ```
 Constructed an OTU table and other variables with the following settings:
