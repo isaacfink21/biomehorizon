@@ -110,15 +110,13 @@ Let’s select “subject_1”.
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1") 
 ```
 
-<pre>
-	<code style="background-color:white; border:0px; display:block;">
+<pre><p style="background-color:white; border:0px; display:block;"><code>
 Constructed an OTU table and other variables with the following settings:
 thresh_prevalence: 80
 thresh_abundance: 0.5
 thresh_NA: 5
 subj: subject_1
-	</code>
-</pre>
+</code></p></pre>
 
 ```
 Constructed an OTU table and other variables with the following settings:
