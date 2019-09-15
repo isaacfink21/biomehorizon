@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: R/BiomeHorizon User Guide
 tagline: Plot Microbiome Time Series
 description: 
@@ -13,7 +13,7 @@ In this tutorial, we walk through refining the data and creating a horizon plot 
 
 The sample data sets and dependencies are loaded automatically on download, so we just need to install and load in the package.
 
-```
+``` r
 ## Install devtools if you don't already have the package
 install.packages("devtools")
 
@@ -21,7 +21,7 @@ devtools::install_github("isaacfink21/biomehorizon")
 library(biomehorizon)
 ```
 
-## Preview of Sample Data
+### Preview of Sample Data
 
 ```
 ## OTU Table format. The first column contains OTU IDs, and all other columns are samples. 
@@ -39,3 +39,41 @@ head(metadatasample, 10)
 head(taxonomydata)
 ```
 
+### Data Refining and OTU Selection
+
+### Constructing the Horizon Plot
+
+### Labelling OTU Facets
+
+### Plot a Single OTU Across Multiple Subjects
+
+### Additional of the Horizon Plot
+
+### Dealing with Irregularly Spaced Data
+
+### Adding Custom Aesthetics
+
+Order of photos:
+plot_basic
+plot_manual_selection
+plot_taxonomy_labels
+plot_custom_labels
+plot_by_subject
+plot_select_subjects
+plot_arrange_subjects
+plot_nbands
+plot_origin
+plot_origin_fixed (fix and create) ***
+plot_bt (not working - fix) ***
+plot_bt_fixed 
+plot_origin_bt_fixed (add code & image)
+plot_regular_interval
+plot_max_gap
+plot_max_gap2
+plot_min_samples
+plot_horizonaes
+plot_rm_xlab
+plot_colbands
+plot_customaes
+
+add to notes: can remove some of the images that don't show much, like plot_origin or plot_bt? Just need to show the syntax.
