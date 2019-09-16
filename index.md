@@ -319,12 +319,12 @@ horizonplot(paramList)
 
 
 ```
-## Set a fixed origin of 5% for all OTU subpanels
-paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", origin = 5)
+## Set a fixed origin of 1% for all OTU subpanels
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", origin = 1)
 horizonplot(paramList)
 ```
 
-plot_origin_fixed.png
+![](plot_origin_fixed.png)
 
 By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate abundance below the median.
 
