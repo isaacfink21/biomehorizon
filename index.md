@@ -349,7 +349,7 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 horizonplot(paramList)
 ```
 
-![](assets/pics/plot_bt_fixed_val10)
+![](assets/pics/plot_bt_fixed_val10.png)
 
 ```
 ## Fixed band thickness of 2%
@@ -358,7 +358,7 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 horizonplot(paramList)
 ```
 
-![](assets/pics/plot_bt_fixed_val2)
+![](assets/pics/plot_bt_fixed_val2.png)
 
 ```
 ## Fixed band thickness of 0.2%
