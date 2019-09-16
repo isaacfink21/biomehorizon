@@ -98,9 +98,9 @@ Before we visualize the data using the main function, we must first prepare the 
 
 1. Filter OTUs
 2. Filter samples to just one subject
-3. Convert values to percentages, if they are not already in that 4. format
-5. Check data formats
-6. Check for and catch common user errors
+3. Convert values to percentages, if they are not already in that format
+4. Check format of data sets
+5. Check for and catch common user errors
 
 Then, it will output the refined arguments in a list that can be supplied to the main function.
 
@@ -235,7 +235,7 @@ You'll notice that the plots above contain the same OTUs, but they are ordered d
 
 ### Labelling OTU Facets
 
-In addition to the default OTU ID labels for each OTU subplot, we can also label facets by their taxonomy. This method will display the most narrow level of classification available for each OTU as a facet label. To do this, we need to supply a third data set with taxonomy information, taxonomysample.
+In addition to the default OTU ID labels for each OTU subplot, we can also label facets by their taxonomy. This method will display the most narrow level of classification available for each OTU as a facet label. To do this, we need to supply a third data set with taxonomy information, *taxonomysample*.
 
 ```
 ## Supply taxonomysample and set facetLabelsByTaxonomy to TRUE
@@ -268,10 +268,11 @@ Rather than plotting with one subject and multiple OTUs, we can plot with one OT
 ## days 1 through 50.
 library(dplyr)
 dummyMetadata <- metadatasample %>% 
-group_by(subject) %>% 
-do(.[1:50,]) %>%
-mutate(collection_date = 1:50)
-dummyOTU <- otusample %>% select(otuid, as.character(dummyMetadata$sample))
+	group_by(subject) %>% 
+	do(.[1:50,]) %>%
+	mutate(collection_date = 1:50)
+dummyOTU <- otusample %>% 
+	select(otuid, as.character(dummyMetadata$sample))
 
 ## Single variable analysis with "otu_1243"
 paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243")
@@ -392,7 +393,7 @@ Setting a fixed origin and band thickness lets us compare values between facets.
 
 ### Dealing with Irregularly Spaced Data
 
-Since *otusample* is irregularly spaced, i.e. the distance of time between samples is not consistent throughout the time series, the timescale on the plot is misleading. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let's create a new time point every 100 days, i.e. at days 1, 101, 201, 301, ..., 3301.
+Since *otusample* is irregularly spaced, i.e. the distance of time between samples is not consistent throughout the time series, the timescale on the plot is misleading. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let's create a new time point every 100 days, i.e. at days 1, 101, 201, 301, ... , 3301.
 
 ```
 ## Adjust data to a regular time interval of 100 days
@@ -423,7 +424,7 @@ horizonplot(paramList)
 
 While this timescale is more accurate than simply plotting samples next to each other, it also introduces inaccuracy by interpolating across large timespans. Since our data contains large gaps in time between samples, regularizing data in this way could be misleading. We can reduce this inaccuracy by specifying the maximum amount of time without samples allowed to create an interpolated timepoint. 
 
-For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will create a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
+For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will produce a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
 
 ```
 ## Set maxGap to 200
