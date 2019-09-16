@@ -167,8 +167,10 @@ otusample_subj1 %>%
 	as.numeric()
 ```
 
-` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**`  
+` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**`
+  
 [28] 11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**` `**`0`**` 464   `**`0`**`  91 
+
 [55] 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127 22   `**`0`**`  11   5  74`
 
 These 23 OTUs were selected using the default filtering thresholds, but maybe we want stricter standards.
@@ -226,5 +228,67 @@ horizonplot(paramList)
 ![](assets/pics/plot_manual_selection.png)
 
 You'll notice that the plots above contain the same OTUs, but they are ordered differently. In the plot with manual selection, OTUs are arranged according to their order in otulist. If you want to arrange OTU panels in a specific order, you should use this vector. 
+
+### Labelling OTU Facets
+
+In addition to the default OTU ID labels for each OTU subplot, we can also label facets by their taxonomy. This method will display the most narrow level of classification available for each OTU as a facet label. To do this, we need to supply a third data set with taxonomy information, taxonomysample.
+
+```
+## Supply taxonomysample and set facetLabelsByTaxonomy to TRUE
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, taxonomydata = taxonomysample, subj = "subject_1", facetLabelsByTaxonomy = TRUE)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_taxonomy_labels.png)
+
+Alternatively, we can supply custom facet labels. These will be applied to facet subplots from top to bottom, in the order they are specified to the vector.
+
+```
+## Apply custom alphabetical facet labels
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, taxonomydata = taxonomysample, subj = "subject_1", customFacetLabels = LETTERS[1:23])
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_custom_labels.png)
+
+### Plot a Single OTU Across Multiple Subjects
+
+Rather than plotting with one subject and multiple OTUs, we can plot with one OTU and multiple subjects. This allows you to compare the same time point across multiple subjects. However, this requires the dataset to have the same number of samples for each subject, and the same sequence of collection dates between subjects. Since *otusample* does not satisfy these requirements, we'll have to use a different data set for this example. For the sake of the example, let's just modify *otusample*.
+
+```
+## Create dummy datasets using the first 50 samples of each subject
+## Since collection dates are inconsistent between subjects, we also ## create fake collection dates as days 1 through 50.
+library(dplyr)
+dummyMetadata <- metadatasample %>% 
+group_by(subject) %>% 
+do(.[1:50,]) %>%
+mutate(collection_date = 1:50)
+dummyOTU <- otusample %>% select(otuid, as.character(dummyMetadata$sample))
+
+## Single variable analysis with "otu_1243"
+paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243")
+
+horizonplot(paramList)
+
+## Select a subset of all subjects
+paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243", subj = c("subject_1", "subject_2", "subject_3"))
+
+horizonplot(paramList)
+
+## Subject facets will be arranged according to the order specified to `subj`
+paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243", subj = c("subject_2", "subject_1", "subject_3"))
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_by_subject.png)
+
+![](assets/pics/plot_select_subjects.png)
+
+![](assets/pics/plot_arrange_subjects.png)
+
+Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of otu_1243 around day 7.
 
 
