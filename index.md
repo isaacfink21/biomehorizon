@@ -167,10 +167,9 @@ otusample_subj1 %>%
 	as.numeric()
 ```
 
-` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510
-[26] 238   `**`0`**`  11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**`
-[51]   `**`0`**` 464   `**`0`**`  91 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127
-[76]  22   `**`0`**`  11   5  74`
+` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**`  
+[28] 11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**` `**`0`**` 464   `**`0`**`  91 
+[55] 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127 22   `**`0`**`  11   5  74`
 
 These 23 OTUs were selected using the default filtering thresholds, but maybe we want stricter standards.
 
@@ -205,4 +204,27 @@ Alternatively, we can manually select OTUs.
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", 
 otulist = c("otu_1243", "otu_6821", "otu_2378", "otu_7737", "otu_1530", "otu_8547", "otu_6570", "otu_2552"))
 ```
+
+### Constructing the Horizon Plot
+
+After refining the data with prepanel, we supply the parameter list to horizonplot to construct the horizon plot.
+
+```
+## Basic plot using default filtering thresholds
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1")
+
+horizonplot(paramList)
+
+## Select OTUs manually
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", otulist = c("otu_6837", "otu_6821", "otu_6789", "otu_4252", "otu_2378", "otu_1243", "otu_3136", "otu_203", "otu_121",  "otu_3131", "otu_2404", "otu_2514", "otu_6570", "otu_2457", "otu_8547", "otu_1530", "otu_6205", "otu_7644", "otu_3773", "otu_2552", "otu_7737", "otu_2526", "otu_2487"))
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_basic.png)
+
+![](assets/pics/plot_manual_selection.png)
+
+You'll notice that the plots above contain the same OTUs, but they are ordered differently. In the plot with manual selection, OTUs are arranged according to their order in otulist. If you want to arrange OTU panels in a specific order, you should use this vector. 
+
 
