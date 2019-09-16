@@ -324,7 +324,7 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 horizonplot(paramList)
 ```
 
-![](plot_origin_fixed.png)
+![](assets/pics/plot_origin_fixed.png)
 
 By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate abundance below the median.
 
@@ -338,12 +338,30 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 horizonplot(paramList)
 ```
 
-(assets/pics/plot_bt.png)
+![](assets/pics/plot_bt.png)
 
 Here, since the top of the highest band is only 4/6 of the maximum value, this becomes the new maximum and all higher values are rounded down. The same is true for negative bands.
 
 ```
-## Fixed band thickness of 0.2 
+## Fixed band thickness of 10%
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 0.2)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_bt_fixed_val10)
+
+```
+## Fixed band thickness of 2%
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 2)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_bt_fixed_val2)
+
+```
+## Fixed band thickness of 0.2%
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 0.2)
 
 horizonplot(paramList)
@@ -355,11 +373,14 @@ Notice that at smaller values of band.thickness, an increasing number of values 
 
 ```
 ## Fixed origin AND fixed band thickness
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", origin = 1, band.thickness = 1)
+
+horizonplot(paramList)
 ```
 
-plot_origin_bt_fixed.png
+![](plot_origin_bt_fixed.png)
  
-Setting a fixed origin and band thickness lets us compare values between facets. For example, around day 5, *otu_1243* is more abundant than *otu_4252*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
+Setting a fixed origin and band thickness lets us compare values between facets. For example, in nearly all samples, *otu_6821* is more abundant than *otu_6789*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
 
 ### Dealing with Irregularly Spaced Data
 
