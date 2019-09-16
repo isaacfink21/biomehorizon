@@ -12,6 +12,7 @@ BiomeHorizon is an R package for visualizing longitudinal microbiome data in the
 
 In this tutorial, we walk through creating a horizon plot from sample data, and then add several modifications to the visualization to demonstrate the versatility of the package. We use a sample OTU table with 8814 OTUs and 1781 samples from six individuals, a metadata table with collection dates, and a table with taxonomy information. Samples in this data set are collected at irregular time intervals over a period of several years, with a different number of samples for each subject.
 
+
 ### Loading in the package
 
 The sample data sets and dependencies are loaded automatically on download, so we just need to install and load in the package.
@@ -23,6 +24,7 @@ install.packages("devtools")
 devtools::install_github("isaacfink21/biomehorizon")
 library(biomehorizon)
 ```
+
 
 ### Preview of Sample Data
 
@@ -92,6 +94,7 @@ head(taxonomydata)
 5            <NA>
 6            <NA>
 ```
+
 
 ### Data Refining and OTU Selection
 
@@ -210,6 +213,7 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 otulist = c("otu_1243", "otu_6821", "otu_2378", "otu_7737", "otu_1530", "otu_8547", "otu_6570", "otu_2552"))
 ```
 
+
 ### Constructing the Horizon Plot
 
 After refining the data with prepanel, we supply the parameter list to horizonplot to construct the horizon plot.
@@ -231,6 +235,7 @@ horizonplot(paramList)
 ![](assets/pics/plot_manual_selection.png)
 
 You'll notice that the plots above contain the same OTUs, but they are ordered differently. In the plot with manual selection, OTUs are arranged according to their order in otulist. If you want to arrange OTU panels in a specific order, you should use this vector. 
+
 
 ### Labelling OTU Facets
 
@@ -255,6 +260,7 @@ horizonplot(paramList)
 ```
 
 ![](assets/pics/plot_custom_labels.png)
+
 
 ### Plot a Single OTU Across Multiple Subjects
 
@@ -293,6 +299,7 @@ horizonplot(paramList)
 ![](assets/pics/plot_arrange_subjects.png)
 
 Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of *otu_1243* around day 7.
+
 
 ### Additional Modifications of the Horizon Plot
 
@@ -385,6 +392,7 @@ horizonplot(paramList)
  
 Setting a fixed origin and band thickness lets us compare values between facets. For example, in nearly all samples, *otu_6821* is more abundant than *otu_6789*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
 
+
 ### Dealing with Irregularly Spaced Data
 
 Since *otusample* is irregularly spaced, i.e. the distance of time between samples is not consistent throughout the time series, the timescale on the plot is misleading. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let's create a new time point every 100 days, i.e. at days 1, 101, 201, 301, ..., 3301.
@@ -451,6 +459,7 @@ horizonplot(paramList)
 
 You should note that removing facets can often result in a timescale that does not start at day 1! The plot for maxGap = 200, for example, starts at day 401, as days 1, 101, 201 and 301 were removed.
 
+
 ### Adding Custom Aesthetics
 
 We can further customize the horizon plot by supplementing a list of aesthetics to the horizonplot() function. We obtain this list by calling the horizonaes() function with the custom aesthetics to override default values. If no custom aesthetics are specified to horizonplot(), default aesthetics will be retrieved by calling horizonaes() with no arguments.
@@ -490,30 +499,3 @@ ggplot2::theme(panel.background = ggplot2::element_rect(fill = "gray92"))
 ```
 
 ![](assets/pics/plot_customaes.png)
-
-
-
-Order of photos:
-plot_basic
-plot_manual_selection
-plot_taxonomy_labels
-plot_custom_labels
-plot_by_subject
-plot_select_subjects
-plot_arrange_subjects
-plot_nbands
-plot_origin
-plot_origin_fixed (fix and create) ***
-plot_bt (not working - fix) ***
-plot_bt_fixed 
-plot_origin_bt_fixed (add code & image)
-plot_regular_interval
-plot_max_gap
-plot_max_gap2
-plot_min_samples
-plot_horizonaes
-plot_rm_xlab
-plot_colbands
-plot_customaes
-
-add to notes: can remove some of the images that don't show much, like plot_origin or plot_bt? Just need to show the syntax.
