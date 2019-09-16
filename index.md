@@ -264,7 +264,8 @@ Rather than plotting with one subject and multiple OTUs, we can plot with one OT
 
 ```
 ## Create dummy datasets using the first 50 samples of each subject
-## Since collection dates are inconsistent between subjects, we also ## create fake collection dates as days 1 through 50.
+## Since collection dates are inconsistent between subjects, we also create fake collection dates as 
+## days 1 through 50.
 library(dplyr)
 dummyMetadata <- metadatasample %>% 
 group_by(subject) %>% 
