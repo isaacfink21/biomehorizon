@@ -2,7 +2,10 @@
 layout: page
 title: R/BiomeHorizon User Guide
 tagline: Plot Microbiome Time Series
-description: 
+output:
+	html_document:
+		toc: yes
+		toc_float: yes
 ---
 
 BiomeHorizon is an R package for visualizing longitudinal microbiome data in the form of a horizon plot. A horizon plot provides a compact way to visualize multiple time series in parallel by overlying the values at different ranges of magnitude. Though this package is designed for microbiome data, it can be used to visualize other types of longitudinal data as well.
