@@ -212,7 +212,7 @@ otulist = c("otu_1243", "otu_6821", "otu_2378", "otu_7737", "otu_1530", "otu_854
 
 ### Constructing the Horizon Plot
 
-After refining the data with prepanel, we supply the parameter list to horizonplot to construct the horizon plot.
+After refining the data with `prepanel`, we supply the parameter list to `horizonplot` to construct the horizon plot.
 
 ```
 ## Basic plot using default filtering thresholds
