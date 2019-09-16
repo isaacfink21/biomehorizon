@@ -378,7 +378,7 @@ paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "su
 horizonplot(paramList)
 ```
 
-![](plot_origin_bt_fixed.png)
+![](assets/pics/plot_origin_bt_fixed.png)
  
 Setting a fixed origin and band thickness lets us compare values between facets. For example, in nearly all samples, *otu_6821* is more abundant than *otu_6789*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
 
