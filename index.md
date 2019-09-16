@@ -167,11 +167,11 @@ otusample_subj1 %>%
 	as.numeric()
 ```
 
-` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**`
+` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**
   
-[28] 11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**` `**`0`**` 464   `**`0`**`  91 
+`[28] 11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**` `**`0`**` 464   `**`0`**`  91` 
 
-[55] 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127 22   `**`0`**`  11   5  74`
+`[55] 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127 22   `**`0`**`  11   5  74`
 
 These 23 OTUs were selected using the default filtering thresholds, but maybe we want stricter standards.
 
@@ -291,4 +291,73 @@ horizonplot(paramList)
 
 Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of otu_1243 around day 7.
 
+### Additional Modifications of the Horizon Plot
+
+We can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data. 
+
+First, we change the number of positive bands that data are segmented into.
+
+```
+## Use three horizon bands 
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", nbands = 3)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_nbands.png)
+
+We can also change the origin value, which defines the baseline (i.e. value=0, the base of the first positive band) of horizon subplots. The sample values for each OTU will then be centered to this origin. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel.
+
+```
+## Origin as the mean absolute deviation of sample values
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", origin = function(y) { mad(y, na.rm = TRUE) })
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_origin.png)
+
+
+```
+## Set a fixed origin of 5% for all OTU subpanels
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", origin = 5)
+horizonplot(paramList)
+```
+
+plot_origin_fixed.png
+
+By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate abundance below the median.
+
+Similarly, we can modify the band thickness, the height of each horizontal band denoted by a unique color, which determines the scale of a horizon subplot.
+
+```
+## Set band thickness to 1/6 the distance between the origin 
+## and maximum value
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = function(y) {max((abs(y - origin(y))), na.rm=TRUE) / 6})
+
+horizonplot(paramList)
+```
+
+(assets/pics/plot_bt.png)
+
+Here, since the top of the highest band is only 4/6 of the maximum value, this becomes the new maximum and all higher values are rounded down. The same is true for negative bands.
+
+```
+## Fixed band thickness of 0.2 
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 0.2)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_bt_fixed.png)
+
+Notice that at smaller values of band.thickness, an increasing number of values are above the new maximum or below the new minimum, resulting in more extreme bands (at +4 or -4).
+
+```
+## Fixed origin AND fixed band thickness
+```
+
+plot_origin_bt_fixed.png
+ 
+Setting a fixed origin and band thickness lets us compare values between facets. For example, around day 5, otu_1243 is more abundant than otu_4252. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
 
