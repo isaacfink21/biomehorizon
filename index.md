@@ -289,7 +289,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_arrange_subjects.png)
 
-Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of otu_1243 around day 7.
+Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of *otu_1243* around day 7.
 
 ### Additional Modifications of the Horizon Plot
 
@@ -359,5 +359,72 @@ Notice that at smaller values of band.thickness, an increasing number of values 
 
 plot_origin_bt_fixed.png
  
-Setting a fixed origin and band thickness lets us compare values between facets. For example, around day 5, otu_1243 is more abundant than otu_4252. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
+Setting a fixed origin and band thickness lets us compare values between facets. For example, around day 5, *otu_1243* is more abundant than *otu_4252*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.
+
+### Dealing with Irregularly Spaced Data
+
+Since *otusample* is irregularly spaced, i.e. the distance of time between samples is not consistent throughout the time series, the timescale on the plot is misleading. To deal with this issue, the package offers tools to transform the data into a regularly spaced time series. To do this, we specify an interval of time at which to interpolate new data. Let's create a new time point every 100 days, i.e. at days 1, 101, 201, 301, …, 3301.
+
+```
+## Adjust data to a regular time interval of 100 days
+paramList <- prepanel(otusample, metadatasample, subj = "subject_1", regularInterval = 100)
+```
+
+We can see the sample collection days starting from day 1 by viewing the `timestamps` variable from the output list of prepanel. This is the third element of the list (you can view components of the list in the horizonplot function documentation).
+
+```
+paramList[[3]]
+```
+
+```
+[1]    1  323  408  507  513  515  519  526  535  542  549  568  614  644  653  658  821  830  833 1073
+[21] 1193 1312 1661 1821 1982 1988 2002 2072 2100 2111 2252 2321 2341 2502 2503 2523 2541 2551 2604 2614
+[41] 2618 2621 2650 2665 2671 2679 2713 2735 2738 2755 2766 2777 2780 2797 2798 2800 2802 2804 2809 2816
+[61] 2825 2854 2901 2924 2931 2933 2987 3018 3020 3042 3045 3052 3054 3056 3070 3085 3136 3266 3299 3322
+[81] 3332
+```
+
+Each new value will be linear interpolated from the previous and subsequent timepoints in `timestamps`. We can then plot the regularly spaced data, and get a graph with an accurate timescale.
+
+```
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_regular_interval.png)
+
+While this timescale is more accurate than simply plotting samples next to each other, it also introduces inaccuracy by interpolating across large timespans. Since our data contains large gaps in time between samples, regularizing data in this way could be misleading. We can reduce this inaccuracy by specifying the maximum amount of time without samples allowed to create an interpolated timepoint. 
+
+For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will create a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
+
+```
+## Set maxGap to 200
+paramList <- prepanel(otusample, metadatasample, subj = "subject_1", regularInterval = 100, maxGap = 200)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_max_gap.png)
+
+If many breaks in the time axis are created, this could result in facets with very few samples. For example, the first facet contains only one sample, at day 1. This is not shown however, as facets with less than two samples are removed by default. You can set the minimum number of samples required to include a facet.
+
+```
+## Create a plot from subject 2
+paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 50, maxGap = 100)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_max_gap2.png)
+
+```
+## Remove facets with <5 samples
+paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 50, maxGap = 100, minSamplesPerFacet = 5)
+
+horizonplot(paramList)
+```
+
+![](assets/pics/plot_min_samples.png)
+
+You should note that removing facets can often result in a timescale that does not start at day 1! The plot for maxGap = 200, for example, starts at day 401, as days 1, 101, 201 and 301 were removed.
+
 
