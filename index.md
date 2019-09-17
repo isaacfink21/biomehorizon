@@ -5,15 +5,14 @@ tagline: Plot Microbiome Time Series
 output:
   html_document:
     toc: true
-    toc_float:
-      collapsed: false
+    toc_float: true
 ---
 
 BiomeHorizon is an R package for visualizing longitudinal microbiome data in the form of a horizon plot. A horizon plot provides a compact way to visualize multiple time series in parallel by overlying the values at different ranges of magnitude. Though this package is designed for microbiome data, it can be used to visualize other types of longitudinal data as well.
 
 In this tutorial, we walk through creating a horizon plot from sample data, and then add several modifications to the visualization to demonstrate the versatility of the package. We use a sample OTU table with 8814 OTUs and 1781 samples from six individuals, a metadata table with collection dates, and a table with taxonomy information. Samples in this data set are collected at irregular time intervals over a period of several years, with a different number of samples for each subject.  
 
-### Loading in the package
+## Loading in the package
 
 The sample data sets and dependencies are loaded automatically on download, so we just need to install and load in the package.
 
@@ -26,7 +25,7 @@ library(biomehorizon)
 ```  
 
 
-### Preview of Sample Data
+## Preview of Sample Data
 
 ```
 ## OTU Table format. The first column contains OTU IDs, and all other columns are samples. 
@@ -96,7 +95,7 @@ head(taxonomydata)
 ```  
 
 
-### Data Refining and OTU Selection
+## Data Refining and OTU Selection
 
 Before we visualize the data using the main function, we must first prepare the data sets and other variables for analysis using the `prepanel` function. This will do several things, most importantly:
 
