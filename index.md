@@ -157,13 +157,13 @@ Great. Now you should see in the console, the function selected several OTUs con
 - **thresh_abundance_override**: The same measurement as *thresh_abundance*, but if this higher threshold is reached, it overrides all other standards and the OTU is included.
 - **thresh_NA**: This sets the maximum allowed percentage of samples with missing data (NA) for this OTU.
 
-Looking at "otu_4252", 66/80 samples have >=1 sample read, giving it a "prevalence score" of ~80.3%. Out of the 66 samples with at least one read, the average proportion of total reads is ~.0053, giving it an "abundance score" of ~0.53%. This meets the default standards of 80% prevalence and 0.5% abundance, so the OTU is included.
+Looking at "otu_4252", 65/81 samples have >=1 sample read, giving it a "prevalence score" of ~80.25%. Out of the 65 samples with at least one read, the average proportion of total reads is ~.0053, giving it an "abundance score" of ~0.53%. This meets the default standards of 80% prevalence and 0.5% abundance, so the OTU is included.
 
 ```
 library(dplyr)
 ## Retrieve samples from subject_1
 otusample_subj1 <- otusample %>% 
-	select(otuid, (metadatasample %>% filter(subject=="subject_1"))$sample)
+	select(otuid, as.character((metadatasample %>% filter(subject=="subject_1"))$sample))
 
 ## Samples reads for otu_4252
 otusample_subj1 %>% 
@@ -172,11 +172,11 @@ otusample_subj1 %>%
 	as.numeric()
 ```
 
-` [1] 130 559  21 164 368 156  50 128  22   `**`0`**` 144 570 491  47   9   1 248  56  38  42  15  13  66  29 510 238   `**`0`**
-  
-`[28] 11 415   `**`0`**`   `**`0`**`  38 464 236   `**`0`**`  26  64  80   2  45 470   `**`0`**` 457  45   `**`0`**` 103  74  97  48   `**`0`**` `**`0`**` 464   `**`0`**`  91` 
+` [1]   `**`0`**`  35   `**`0`**`   `**`0`**`  17   `**`0`**`  21  11   `**`0`**` 207 595 570  43  56 138   `**`0`**`  13   0 464   5   `**`0`**` 701 217 101 14 859 `**`0`**`
 
-`[55] 470   6  26  71  60  14  96   `**`0`**`  26 536 117   `**`0`**` 470 101 213   `**`0`**` 144 258  22  21 127 22   `**`0`**`  11   5  74`
+[28]  26   `**`0`**`   6 337  22 258 217   6 321  71  25  77   `**`0`**` 164  39 128  60 205 595  42 190 181  21  47   7 217 182  
+
+[55] 23 165 540  71   `**`0`**`  88  68  64   7   `**`0`**`  11   `**`0`**`  67  39  11  45   `**`0`**` 570 `**`0`**`  46 243  70  14 182 354  88  74`
 
 These 23 OTUs were selected using the default filtering thresholds, but maybe we want stricter standards.
 
