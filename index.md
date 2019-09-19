@@ -55,7 +55,7 @@ otusample %>%
 ```
 ## Metadata format. Contains sample IDs matching the column names of otusample, 
 ## subject IDs, and collection dates.
-head(metadatasample, 10)
+head(metadatasample)
 ```
 
 ```
@@ -263,7 +263,7 @@ horizonplot(paramList)
 
 ### Plot a Single OTU Across Multiple Subjects
 
-Rather than plotting with one subject and multiple OTUs, we can plot with one OTU and multiple subjects. This allows you to compare the same time point across multiple subjects. However, this requires the dataset to have the same number of samples for each subject, and the same sequence of collection dates between subjects. Since *otusample* does not satisfy these requirements, we'll have to use a different data set for this example. For the sake of the example, let's just modify *otusample*.
+Rather than plotting one subject across multiple OTUs, we can also plot just one OTU to compare the same timepoint across multiple subjects. To use this setting, however, data must have the same number of samples with the same sequence of collection dates for all subjects. Since *otusample* does not satisfy these requirements, we create artifical data sets for this example by modifying *otusample* and *metadatasample*.  
 
 ```
 ## Create dummy datasets using the first 50 samples of each subject
@@ -299,14 +299,14 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_arrange_subjects.png)
 
-Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of *otu_1243* around day 7.  
+Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of *otu_1243* at sample 7.  
 
 
 ### Additional Modifications of the Horizon Plot
 
-We can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data. 
+We can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data.  
 
-First, we change the number of positive bands that data are segmented into.
+First, we change the number of positive bands to segment data into.
 
 ```
 ## Use three horizon bands 
@@ -316,6 +316,8 @@ horizonplot(paramList)
 ```
 
 ![](assets/pics/plot_nbands.png)
+
+Including more horizon bands will more precisely distinguish values and emphasize those at the highest ranges of magnitude. Using less bands will de-emphasize values at the extreme ends of the data.
 
 We can also change the origin value, which defines the baseline (i.e. value=0, the base of the first positive band) of horizon subplots. The sample values for each OTU will then be centered to this origin. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel.
 
@@ -342,8 +344,7 @@ By default, the origin is calculated as the median of all sample values, so area
 Similarly, we can modify the band thickness, the height of each horizontal band denoted by a unique color, which determines the scale of a horizon subplot.
 
 ```
-## Set band thickness to 1/6 the distance between the origin 
-## and maximum value
+## Set band thickness to 1/6 the distance between the origin and maximum value
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = function(y) {max((abs(y - origin(y))), na.rm=TRUE) / 6})
 
 horizonplot(paramList)
@@ -351,7 +352,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_bt.png)
 
-Here, since the top of the highest band is only 4/6 of the maximum value, this becomes the new maximum and all higher values are rounded down. The same is true for negative bands.
+Here, since the top of the highest band is only 4/6 of the maximum value, this becomes the new maximum and all higher values are rounded down. The same is true for negative bands. This can be valuable for de-emphasizing outliers at the extrema of the data.
 
 ```
 ## Fixed band thickness of 10%
@@ -391,7 +392,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_origin_bt_fixed.png)
  
-Setting a fixed origin and band thickness lets us compare values between facets. For example, in nearly all samples, *otu_6821* is more abundant than *otu_6789*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.  
+Setting a fixed origin *and* band thickness lets us compare values between facets. For example, in nearly all samples, *otu_6821* is more abundant than *otu_6789*. We can't say this about a plot with a variable origin, as values are not centered to the same zero. Similarly, a variable band thickness means the distance of a positive value from the origin is not consistent between subplots.  
 
 
 ### Dealing with Irregularly Spaced Data
