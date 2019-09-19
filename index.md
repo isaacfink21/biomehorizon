@@ -14,7 +14,7 @@ In this tutorial, we walk through creating a horizon plot from sample data, and 
 The sample data sets and dependencies are loaded automatically on download, so we just need to install and load in the package.
 
 ```
-## Install devtools if you don't already have the package
+## Install devtools
 install.packages("devtools")
 
 devtools::install_github("isaacfink21/biomehorizon")
@@ -25,31 +25,24 @@ library(biomehorizon)
 ### Preview of Sample Data
 
 ```
-## OTU Table format. The first column contains OTU IDs, and all other columns are samples. 
+## OTU table format. The first column contains OTU IDs, and all other columns are samples. 
 ## Values represent sample reads per OTU within a given sample. 
 ## Though in this case values are integer sample reads, they can also be represented as proportions or 
 ## percentages of the total sample.
 otusample %>% 
-	arrange(desc(sample_11406_0024_S24_L001)) %>% 
-	select(1:6) %>% 
+	arrange(desc(sample_1)) %>% 
+	select(1:7) %>% 
 	head()
 ```
 
 ```
-     otuid sample_11406_0024_S24_L001 sample_11406_0028_S28_L001 sample_11406_0029_S29_L001
-1 otu_2457                       2338                        362                       2011
-2 otu_2354                       1369                        276                          0
-3 otu_2526                       1264                        630                        570
-4 otu_2478                       1134                          0                          0
-5 otu_7662                       1108                         46                         36
-6 otu_5723                       1070                         98                          0
-  sample_11406_0030_S30_L001 sample_11406_0033_S33_L001
-1                        223                         89
-2                         59                        108
-3                        234                        107
-4                          2                          0
-5                          0                         33
-6                          0                          0
+     otuid sample_1 sample_2 sample_3 sample_4 sample_5 sample_6
+1 otu_2457     2338      362     2011      223       89      617
+2 otu_2354     1369      276        0       59      108       33
+3 otu_2526     1264      630      570      234      107      255
+4 otu_2478     1134        0        0        2        0        0
+5 otu_7662     1108       46       36        0       33        0
+6 otu_5723     1070       98        0        0        0        0
 ```
 
 ```
@@ -59,13 +52,13 @@ head(metadatasample)
 ```
 
 ```
-                      sample   subject collection_date
-1 sample_11406_0024_S24_L001 subject_1      2001-12-27
-2 sample_11406_0028_S28_L001 subject_2      2006-11-01
-3 sample_11406_0030_S30_L001 subject_3      2006-11-01
-4 sample_11406_0038_S38_L001 subject_4      2005-09-21
-5 sample_11406_0045_S45_L001 subject_5      2005-09-22
-6 sample_11406_0048_S48_L001 subject_6      2005-09-23
+     sample   subject collection_date
+1  sample_1 subject_1      2001-12-27
+2  sample_2 subject_2      2006-11-01
+3  sample_4 subject_3      2006-11-01
+4  sample_6 subject_4      2005-09-21
+5  sample_9 subject_5      2005-09-22
+6 sample_10 subject_6      2005-09-23
 ```
 
 ```
