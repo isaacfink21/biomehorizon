@@ -25,7 +25,8 @@ library(biomehorizon)
 ### Preview of Sample Data
 
 ```
-## OTU table format. The first column contains OTU IDs, and all other columns are samples. 
+## OTU table format. The first column contains OTU IDs, and all other columns are samples, as well as
+## two blanks which are filtered out automatically before analysis. 
 ## Values represent sample reads per OTU within a given sample. 
 ## Though in this case values are integer sample reads, they can also be represented as proportions or 
 ## percentages of the total sample.
@@ -65,7 +66,7 @@ head(metadatasample)
 ## Taxonomydata format. Describes taxonomy of each OTU from Kingdom through Genus.
 ## Levels without classification have NA values.
 ## You can also supply a vector of strings each with the entire taxonomy of an OTU, 
-## with levels separated by semicolons.
+## with levels separated by semicolons
 ## Supports classification up to Subspecies (8 levels)
 head(taxonomydata)
 ```
