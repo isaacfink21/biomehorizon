@@ -144,14 +144,14 @@ subj: subject_1
 `biomehorizonpkg_otu_stats` was outputted to the environment.
 ```
 
-Great. Now you should see in the console, the function selected several OTUs considered the most "significant". By default, this is done using four filtering standards.
+Great. Now you should see in the console, the function selected several OTUs considered the most "important". By default, this is done using four filtering standards.
 
-- **thresh_prevalence**: How many samples in this OTU contain at least one sample read?
-- **thresh_abundance**: Out of the samples that contain reads for this OTU, what was the average abundance of this OTU? i.e., what percentage of total sample reads are from this OTU?
+- **thresh_prevalence**: How many samples in this OTU contain at least one sample read that maps to this OTU?
+- **thresh_abundance**: Out of the samples that contain reads for this OTU, what was the average abundance of this OTU? i.e., what percentage of total reads in the sample are from this OTU?
 - **thresh_abundance_override**: The same measurement as *thresh_abundance*, but if this higher threshold is reached, it overrides all other standards and the OTU is included.
 - **thresh_NA**: This sets the maximum allowed percentage of samples with missing data (NA) for this OTU.
 
-Looking at "otu_4252", 65/81 samples have >=1 sample read, giving it a "prevalence score" of ~80.25%. Out of the 65 samples with at least one read, the average proportion of total reads is ~.0053, giving it an "abundance score" of ~0.53%. This meets the default standards of 80% prevalence and 0.5% abundance, so the OTU is included.
+As an example, *otu_4252* appears in 65/81 samples, giving it a "prevalence score" of ~80.25%. Out of the 65 samples with at least one read, the average proportion of total reads is ~.0053, giving it an "abundance score" of ~0.53%. This meets the default standards of 80% prevalence and 0.5% abundance, so the OTU is included.
 
 ```
 library(dplyr)
@@ -214,11 +214,13 @@ After refining the data with `prepanel`, we supply the parameter list to `horizo
 ```
 ## Basic plot using default filtering thresholds
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1")
+paramList[[1]] <- paramList[[1]][,1:21]
 
 horizonplot(paramList)
 
 ## Select OTUs manually
 paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", otulist = c("otu_6837", "otu_6821", "otu_6789", "otu_4252", "otu_2378", "otu_1243", "otu_3136", "otu_203", "otu_121",  "otu_3131", "otu_2404", "otu_2514", "otu_6570", "otu_2457", "otu_8547", "otu_1530", "otu_6205", "otu_7644", "otu_3773", "otu_2552", "otu_7737", "otu_2526", "otu_2487"))
+paramList[[1]] <- paramList[[1]][,1:21]
 
 horizonplot(paramList)
 ```
