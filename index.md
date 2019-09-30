@@ -278,12 +278,7 @@ paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU
 
 horizonplot(paramList)
 
-## Select a subset of all subjects
-paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243", subj = c("subject_1", "subject_2", "subject_3"))
-
-horizonplot(paramList)
-
-## Subject facets will be arranged according to the order specified to `subj`
+## Select a subset of all subjects and arrange facet order
 paramList <- prepanel(otudata = dummyOTU, metadata = dummyMetadata, singleVarOTU = "otu_1243", subj = c("subject_2", "subject_1", "subject_3"))
 
 horizonplot(paramList)
@@ -300,9 +295,11 @@ Based on this graph from artificial data we might then infer that subjects 1, 2 
 
 ### Additional Modifications of the Horizon Plot
 
-We can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data.  
+The origin value of an OTU defines its baseline, i.e. the base of the first positive band, where value=0. By default, the origin for each OTU is calculated as the median value of that OTU across all samples, so blue bands reflect abundance above the median, while red bands indicate abundance below the median. 4 positive and 4 negative bands are used, where band widths represent quartiles above and below the median relative to the extreme value for that OTU. This means that by default, if across all samples the median relative abundance of otu_121 was 10%, the maximum relative abundance of otu_121 in any sample was 30%, and the minimum relative abundance was 0%, then each band colorscale represents an abundance range of ((30-10)/4) = 5%. Thus, a band colorscale value of +2 for otu_121 at timepoint x indicates that otu_121 had a relative abundance within (min = 10 + (30-10)/4, max = 10 + 2*((30-10)/4)) = 15-20% at timepoint x, while a band colorscale value of -2 for otu_121 at timepoint y indicates that otu_121 had a relative abundance ranging from 0-5% at timepoint y. Since the distance between the maximum and the origin (30-10% = 20%) is greater than the distance between the minimum and the origin (10-0% = 10%) for otu_121, there are no timepoints at a band colorscale of -3 or -4. By scaling within each OTU, the dynamics of multiple OTUs that may vary in median abundance by orders of magnitude can be visualized on the same graph. 
 
-First, we change the number of positive bands to segment data into.
+However, we can add several modifications to the horizon plot to emphasize different aspects of our longitudinal data.  
+
+First, we change the number of positive bands into which data is segmented.
 
 ```
 ## Use three horizon bands 
@@ -315,7 +312,7 @@ horizonplot(paramList)
 
 Including more horizon bands will more precisely distinguish values and emphasize those at the highest ranges of magnitude. Using less bands will de-emphasize values at the extreme ends of the data.
 
-We can also change the origin value, which defines the baseline (i.e. value=0, the base of the first positive band) of horizon subplots. The sample values for each OTU will then be centered to this origin. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel.
+We can also change the origin, the value at which all sample values will be centered. We can supply this either as a constant, to set a fixed origin value for all OTUs, or as a function that operates on sample values, to evaluate a unique origin for each panel.
 
 ```
 ## Origin as the mean absolute deviation of sample values
@@ -334,8 +331,6 @@ horizonplot(paramList)
 ```
 
 ![](assets/pics/plot_origin_fixed.png)
-
-By default, the origin is calculated as the median of all sample values, so areas in blue reflect abundance above the median, while areas in red indicate abundance below the median.
 
 Similarly, we can modify the band thickness, the height of each horizontal band denoted by a unique color, which determines the scale of a horizon subplot.
 
@@ -397,7 +392,7 @@ Since *otusample* is irregularly spaced, i.e. the distance of time between sampl
 
 ```
 ## Adjust data to a regular time interval of 100 days
-paramList <- prepanel(otusample, metadatasample, subj = "subject_1", regularInterval = 100)
+paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 100)
 ```
 
 We can see the sample collection days starting from day 1 by viewing the `timestamps` variable from the output list of prepanel. This is the third element of the list (you can view components of the list in the horizonplot function documentation).
@@ -407,11 +402,12 @@ paramList[[3]]
 ```
 
 ```
-[1]    1  323  408  507  513  515  519  526  535  542  549  568  614  644  653  658  821  830  833 1073
-[21] 1193 1312 1661 1821 1982 1988 2002 2072 2100 2111 2252 2321 2341 2502 2503 2523 2541 2551 2604 2614
-[41] 2618 2621 2650 2665 2671 2679 2713 2735 2738 2755 2766 2777 2780 2797 2798 2800 2802 2804 2809 2816
-[61] 2825 2854 2901 2924 2931 2933 2987 3018 3020 3042 3045 3052 3054 3056 3070 3085 3136 3266 3299 3322
-[81] 3332
+[1]    1   68  261  391  486  514  517  523  526  529  531  535  542  563  570  618  638  640  668
+ [20]  675  697  796  800  858  872  879  883  885 1032 1052 1056 1056 1059 1108 1195 1206 1223 1439
+ [39] 1454 1593 1595 1613 1648 1674 1682 1705 1709 1720 1824 1892 1894 1966 1980 1985 1989 2089 2116
+ [58] 2253 2259 2306 2321 2322 2332 2461 2508 2524 2552 2601 2624 2672 2680 2692 2694 2748 2750 2771
+ [77] 2774 2778 2783 2799 2805 2810 2824 2844 2885 2932 2961 2965 2969 2991 3015 3019 3021 3049 3053
+ [96] 3055 3057 3071 3119 3137 3144 3147
 ```
 
 Each new value will be linear interpolated from the previous and subsequent timepoints in `timestamps`. We can then plot the regularly spaced data, and get a graph with an accurate timescale.
@@ -424,18 +420,18 @@ horizonplot(paramList)
 
 While this timescale is more accurate than simply plotting samples next to each other, it also introduces inaccuracy by interpolating across large timespans. Since our data contains large gaps in time between samples, regularizing data in this way could be misleading. We can reduce this inaccuracy by specifying the maximum amount of time without samples allowed to create an interpolated timepoint. 
 
-For this example, a new timepoint will be interpolated at day 201. The closest previous timepoint is day 1, and the closest subsequent timepoint is day 323, giving a total distance of 322 days without samples. If we set the maximum gap to 200 days, for example, then the timepoint at 201 will not be created. Instead, it will produce a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
+For this example, a new timepoint will be interpolated at day 1401. The closest previous timepoint is day 1223, and the closest subsequent timepoint is day 1439, giving a distance of 178 days from the furthest adjacent timepoint. If we set the maximum gap to 150 days, for example, then the timepoint at 1401 will not be created. Instead, it will produce a break in the time axis, and data will be regularized separately on both sides of the break. This break is simulated by splitting the plot into two facets.
 
 ```
-## Set maxGap to 200
-paramList <- prepanel(otusample, metadatasample, subj = "subject_1", regularInterval = 100, maxGap = 200)
+## Set maxGap to 150
+paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 100, maxGap = 150)
 
 horizonplot(paramList)
 ```
 
 ![](assets/pics/plot_max_gap.png)
 
-If many breaks in the time axis are created, this could result in facets with very few samples. For example, the first facet contains only one sample, at day 1. This is not shown however, as facets with less than two samples are removed by default. You can set the minimum number of samples required to include a facet.
+If many breaks in the time axis are created, this could result in facets with very few samples. For example, if maxGap = 200 and the first two samples are at days 1 and 323, the first facet would contain only one sample (day 1). You can set the minimum number of samples required to include a facet (default = 2 samples).
 
 ```
 ## Create a plot from subject 2
