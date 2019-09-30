@@ -431,7 +431,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_max_gap.png)
 
-If many breaks in the time axis are created, this could result in facets with very few samples. For example, if maxGap = 200 and the first two samples are at days 1 and 323, the first facet would contain only one sample (day 1). You can set the minimum number of samples required to include a facet (default = 2 samples).
+If many breaks in the time axis are created, this could result in facets with very few samples. For example, if maxGap = 150 and the first two samples are at days 1 and 201, the first facet would contain only one sample (day 1). You can set the minimum number of samples required to include a facet (default = 2 samples).
 
 ```
 ## Create a plot from subject 2
@@ -451,7 +451,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_min_samples.png)
 
-You should note that removing facets can often result in a timescale that does not start at day 1! The plot for maxGap = 200, for example, starts at day 401, as days 1, 101, 201 and 301 were removed.  
+You should note that removing facets can often result in a timescale that does not start at day 1! The plot for maxGap = 150, for example, starts at day 201, as days 1 and 101 were removed.  
 
 
 ### Adding Custom Aesthetics
