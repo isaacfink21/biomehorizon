@@ -286,8 +286,6 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_by_subject.png)
 
-![](assets/pics/plot_select_subjects.png)
-
 ![](assets/pics/plot_arrange_subjects.png)
 
 Based on this graph from artificial data we might then infer that subjects 1, 2 and 3 all have a decreased abundance of *otu_1243* at sample 7.  
