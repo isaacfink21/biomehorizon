@@ -435,7 +435,10 @@ If many breaks in the time axis are created, this could result in facets with ve
 ## Create a plot from subject 2
 paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 50, maxGap = 100)
 
-horizonplot(paramList)
+# Append custom set of axis ticks to avoid overlapping labels
+horizonplot(paramList) + 
+	ggplot2::scale_x_continuous(expand = c(0,0), 
+	breaks = seq(from = 0, by = 200, to = 3000))
 ```
 
 ![](assets/pics/plot_max_gap2.png)
@@ -444,7 +447,9 @@ horizonplot(paramList)
 ## Remove facets with <5 samples
 paramList <- prepanel(otusample, metadatasample, subj = "subject_2", regularInterval = 50, maxGap = 100, minSamplesPerFacet = 5)
 
-horizonplot(paramList)
+horizonplot(paramList) + 
+	ggplot2::scale_x_continuous(expand = c(0,0), 
+	breaks = seq(from = 0, by = 200, to = 3000))
 ```
 
 ![](assets/pics/plot_min_samples.png)
