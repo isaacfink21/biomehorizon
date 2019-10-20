@@ -345,7 +345,7 @@ Here, since the top of the highest band is only 4/6 of the maximum value, this b
 
 ```
 ## Fixed band thickness of 10%
-paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 0.2)
+paramList <- prepanel(otudata = otusample, metadata = metadatasample, subj = "subject_1", band.thickness = 10)
 
 horizonplot(paramList)
 ```
@@ -370,7 +370,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_bt_fixed.png)
 
-Notice that at smaller values of band.thickness, an increasing number of values are above the new maximum or below the new minimum, resulting in more extreme bands (at +4 or -4).
+Notice that at smaller values of `band.thickness`, an increasing number of values are above the new maximum or below the new minimum, resulting in more extreme bands (at +4 or -4). This accentuates changes in microbes with low abundances but compresses change in microbes with larger abundances. 
 
 ```
 ## Fixed origin AND fixed band thickness
