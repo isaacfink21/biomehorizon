@@ -370,7 +370,7 @@ horizonplot(paramList)
 
 ![](assets/pics/plot_bt_fixed.png)
 
-Notice that at smaller values of `band.thickness`, an increasing number of values are above the new maximum or below the new minimum, resulting in more extreme bands (at +4 or -4). This accentuates changes in microbes with low abundances, but compresses change in microbes with larger abundances like `otu_1243` and `otu_6821`. 
+Notice that at smaller values of `band.thickness`, an increasing number of values are above the new maximum or below the new minimum, resulting in more extreme bands (at +4 or -4). This accentuates changes in microbes with low abundances but compresses change in microbes with larger abundances, making small increases ambiguous from large increases. 
 
 ```
 ## Fixed origin AND fixed band thickness
